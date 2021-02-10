@@ -36,9 +36,6 @@ namespace EmployeeManagement_ReactWebApi.Controllers
 
 
         }
-
-
-
         
         public string Post(Department department)
         {
@@ -65,6 +62,61 @@ namespace EmployeeManagement_ReactWebApi.Controllers
             catch (Exception e)
             {
                 return "Failed to add";
+            }
+        }
+        
+        
+        public string Put(Department department)
+        {
+
+            try
+            {
+                DataTable table = new DataTable();
+
+                string query = @"update dbo.Depertments set Name='"+department.Name+@"'where Id="+department.Id+@"";
+
+                var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EmployeeDb"].ConnectionString);
+
+                var command = new SqlCommand(query, con);
+
+                using (var da = new SqlDataAdapter(command))
+                {
+                    command.CommandType = CommandType.Text;
+                    da.Fill(table);
+
+                }
+
+                return "Update Successful";
+            }
+            catch (Exception e)
+            {
+                return "Failed to update";
+            }
+        }
+        
+        public string Delete(int id)
+        {
+            try
+            {
+                DataTable table = new DataTable();
+
+                string query = @"Delete from dbo.Depertments where Id="+id;
+
+                var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EmployeeDb"].ConnectionString);
+
+                var command = new SqlCommand(query, con);
+
+                using (var da = new SqlDataAdapter(command))
+                {
+                    command.CommandType = CommandType.Text;
+                    da.Fill(table);
+                }
+
+                return "Delete Successful";
+            }
+            catch (Exception e)
+            {
+                return "Failed to delete";
             }
         }
     }

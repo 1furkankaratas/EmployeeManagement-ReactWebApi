@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using Newtonsoft.Json.Converters;
 
 namespace EmployeeManagement_ReactWebApi
 {
@@ -22,6 +23,7 @@ namespace EmployeeManagement_ReactWebApi
             );
 
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+            config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new IsoDateTimeConverter());
         }
     }
 }
