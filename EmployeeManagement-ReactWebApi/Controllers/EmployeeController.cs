@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using EmployeeManagement_ReactWebApi.Models;
 
 namespace EmployeeManagement_ReactWebApi.Controllers
 {
@@ -33,6 +34,34 @@ namespace EmployeeManagement_ReactWebApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
 
 
+        }
+
+        public string Post(Employee employee)
+        {
+
+            try
+            {
+                DataTable table = new DataTable();
+
+                string query = @"insert into dbo.Employees (Name,Depertment,MailId) values('" + employee.Name + @"','" + employee.Depertment + @"','" + employee.MailId + @"')";
+
+                var con = new SqlConnection(ConfigurationManager.ConnectionStrings["EmployeeDb"].ConnectionString);
+
+                var command = new SqlCommand(query, con);
+
+                using (var da = new SqlDataAdapter(command))
+                {
+                    command.CommandType = CommandType.Text;
+                    da.Fill(table);
+
+                }
+
+                return "Added Successful";
+            }
+            catch (Exception e)
+            {
+                return "Failed to add";
+            }
         }
     }
 }
